@@ -8,29 +8,41 @@
 </head>
 <body>
 <div class="content">
-    <h2>Calculate your Tax</h2>
+    <h2>Calculate your <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax">PAYE</a> Tax</h2>
     <h4>This tool helps you compute your income tax, SNIT and net income.</h4>
     <form class="pure-form pure-form-stacked">
-        <label for="gross-income">Enter your gross income:</label>
+        <label for="gross-income">Gross monthly income:</label>
         <input id="gross-income" type="number" value="0">
-        <br/><label for="allowances">Enter your other allowances:</label>
+        <br/><label for="allowances">Other monthly allowances:</label>
         <input id="allowances" type="number" value="0"> <br/>
         <button id="submit-button" class="pure-button pure-button-primary">Compute</button>
     </form>
-    <div id="income-tax" class="result"></div>
-    <div id="ssnit-deduction" class="result"></div>
-    <div id="net-income" class="result"></div>
+
+    <div id="results" style="display: none">
+        <div class="result"><span>Income Tax: GHC </span> <span class="cedi-value" id="income-tax"></span> </div>
+        <div class="result"><span>5.5% SSNIT: GHC </span> <span class="cedi-value" id="ssnit-deduction"></span></div>
+        <div class="result"><span>Net Income: GHC </span> <span class="cedi-value" id="net-income"></span></div>
+    </div>
+
 </div>
 <script type="text/javascript">
     var ssnitRate = 5.5;
-    var taxRates = [
+    var monthlyTaxRates = [
         [0,216],
         [5,108],
         [10,151],
-        [17.5,2765]
+        [17.5,2765],
+        [25,Number.POSITIVE_INFINITY]
+    ];
+    var annualTaxRates = [
+        [0,2592],
+        [5,1296],
+        [10,1812],
+        [17.5,33180],
+        [25,Number.POSITIVE_INFINITY]
     ];
 
-    function calculateTaxes(gross,allowances){
+    function computeTaxes(gross,allowances,taxRates){
 
         var totalTax = 0.0;
         var ssnit = gross * ssnitRate / 100.0;
@@ -39,8 +51,7 @@
         for (var i = 0; i < taxRates.length; i++) {
             if(taxableRemaining > 0){ //if there's money left to be taxed
                 var tranche = taxableRemaining > taxRates[i][1]? taxRates[i][1] : taxableRemaining; //ternary operator
-                var tax = taxRates[i][0] * tranche /100.0;
-                totalTax += tax;
+                totalTax += taxRates[i][0] * tranche / 100.0;
                 taxableRemaining -= tranche;
 //                console.log((i+1) +' Tax: ' + tax);
 //                console.log((i+1) +' Tranche: ' + tranche);
@@ -63,11 +74,14 @@
         gross = Number(gross);
         allowance = Number(allowance);
 
-        var taxes = calculateTaxes(gross,allowance);
+        var taxes = computeTaxes(gross,allowance,monthlyTaxRates);
+        var net = gross + allowance - taxes[0] - taxes[1];
 
-        $('#income-tax').html('Income Tax: GHC '+taxes[0]);
-        $('#ssnit-deduction').html('SSNIT: GHC '+taxes[1]);
-        $('#net-income').html('Net Income: GHC '+ (gross + allowance - taxes[0] - taxes[1]));
+        $('#income-tax').html(taxes[0].toFixed(2));
+        $('#ssnit-deduction').html(taxes[1].toFixed(2));
+        $('#net-income').html(net.toFixed(2));
+
+        $('#results').show();
     });
 
 </script>

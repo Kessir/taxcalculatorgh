@@ -1,3 +1,7 @@
+body {
+    background-color: #fafafa;
+}
+
 .content{
     max-width: 700px;
     margin-left: auto;
@@ -5,7 +9,16 @@
     padding: 10px;
 }
 
+#results{
+    margin-top: 16px;
+}
+
 .result{
     padding: 6px;
-    font-size: 16px;
+    font-size: 18px;
+}
+
+#results .cedi-value{
+    font-weight: bold;
+    font-size: 110%;
 }
