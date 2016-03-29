@@ -3,23 +3,24 @@
 <head>
     <title>GH Tax Calculator</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-<h2>Calculate your Tax</h2>
-<h4>Get your income tax, SNIT and net income</h4>
-<form>
-    <label for="gross-income">Enter your gross income:</label> <br/>
-    <span>GHC </span>
-    <input id="gross-income" type="number" value="0">
-    <br/><label for="allowances">Enter your gross income:</label> <br/>
-    <span>GHC </span>
-    <input id="allowances" type="number" value="0"> <br/>
-    <input id="submit-button" type="button" value="Compute">
-</form>
-<div id="income-tax"></div>
-<div id="ssnit-deduction"></div>
-<div id="net-income"></div>
+<div class="content">
+    <h2>Calculate your Tax</h2>
+    <h4>This tool helps you compute your income tax, SNIT and net income.</h4>
+    <form class="pure-form pure-form-stacked">
+        <label for="gross-income">Enter your gross income:</label>
+        <input id="gross-income" type="number" value="0">
+        <br/><label for="allowances">Enter your other allowances:</label>
+        <input id="allowances" type="number" value="0"> <br/>
+        <button id="submit-button" class="pure-button pure-button-primary">Compute</button>
+    </form>
+    <div id="income-tax" class="result"></div>
+    <div id="ssnit-deduction" class="result"></div>
+    <div id="net-income" class="result"></div>
+</div>
 <script type="text/javascript">
     var ssnitRate = 5.5;
     var taxRates = [
@@ -35,28 +36,29 @@
         var ssnit = gross * ssnitRate / 100.0;
         var taxableRemaining = (gross - ssnit) + allowances;
 
-        console.log('Allowances: ' + allowances);
-        console.log('Gross: ' + gross);
-        console.log('SSNIT: ' + ssnit);
-        console.log('Initial Taxable: ' + taxableRemaining);
-
         for (var i = 0; i < taxRates.length; i++) {
             if(taxableRemaining > 0){ //if there's money left to be taxed
                 var tranche = taxableRemaining > taxRates[i][1]? taxRates[i][1] : taxableRemaining; //ternary operator
                 var tax = taxRates[i][0] * tranche /100.0;
                 totalTax += tax;
                 taxableRemaining -= tranche;
-                console.log((i+1) +' Tax: ' + tax);
-                console.log((i+1) +' Tranche: ' + tranche);
-                console.log((i+1) +' Taxable: ' + taxableRemaining);
+//                console.log((i+1) +' Tax: ' + tax);
+//                console.log((i+1) +' Tranche: ' + tranche);
+//                console.log((i+1) +' Taxable: ' + taxableRemaining);
             }
         }
         return [totalTax,ssnit];
     }
 
-    $('#submit-button').click(function(){
+    $('#submit-button').click(function(event){
+        event.preventDefault();
         var gross = $('#gross-income').val();
         var allowance = $('#allowances').val();
+
+        if(!$.isNumeric(gross) || !$.isNumeric(allowance)){
+            alert('Invalid input');
+            return;
+        }
 
         gross = Number(gross);
         allowance = Number(allowance);

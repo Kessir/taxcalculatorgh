@@ -1,0 +1,11 @@
+.content{
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+.result{
+    padding: 6px;
+    font-size: 16px;
+}
