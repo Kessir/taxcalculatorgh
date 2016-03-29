@@ -2,11 +2,14 @@ body {
     background-color: #fafafa;
 }
 
-.content{
+#container{
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     padding: 10px;
+}
+form input{
+    /*text-align: right;*/
 }
 
 #results{
@@ -21,4 +24,24 @@ body {
 #results .cedi-value{
     font-weight: bold;
     font-size: 110%;
+}
+
+.cedi-value::before{
+    content: 'GH\20B5 \00a0';
+    color: #3e3e3e;
+    font-weight: normal;
+    font-size: 80%;
+}
+
+#footer {
+    padding: 10px;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    max-width: 700px;
+}
+
+#footer .disclaimer{
+    font-size: 12px;
+    color: #7f7f7f;
 }

@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-<div class="content">
+<div id="container">
     <h2>Calculate your <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax">PAYE</a> Tax</h2>
-    <h4>This tool helps you compute your income tax, SNIT and net income.</h4>
+    <h4>This tool helps you compute your income tax, SSNIT and net income.</h4>
     <form class="pure-form pure-form-stacked">
         <label for="gross-income">Gross monthly income:</label>
         <input id="gross-income" type="number" value="0">
@@ -19,9 +19,12 @@
     </form>
 
     <div id="results" style="display: none">
-        <div class="result"><span>Income Tax: GHC </span> <span class="cedi-value" id="income-tax"></span> </div>
-        <div class="result"><span>5.5% SSNIT: GHC </span> <span class="cedi-value" id="ssnit-deduction"></span></div>
-        <div class="result"><span>Net Income: GHC </span> <span class="cedi-value" id="net-income"></span></div>
+        <div class="result"><span>Income Tax: </span> <span class="cedi-value" id="income-tax"></span> </div>
+        <div class="result"><span>5.5% SSNIT: </span> <span class="cedi-value" id="ssnit-deduction"></span></div>
+        <div class="result"><span>Net Income: </span> <span class="cedi-value" id="net-income"></span></div>
+    </div>
+    <div id="footer">
+        <span class="disclaimer">Disclaimer: This tool is provided as a quick way of figuring out your take home income. We do our best to ensure its accuracy but we cannot be held responsible for any errors.</span>
     </div>
 
 </div>
