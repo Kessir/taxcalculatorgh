@@ -1,102 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>GH Tax Calculator</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="This site will help compute your take home income based on your yearly or monthly gross income">
+    <title>Tax Calculator Ghana (🇬🇭)</title>
+    <link rel="stylesheet" href="css/spectre.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!--<style>
+        body{background-color:#fafafa}#results .cedi-value{font-weight:700;font-size:110%}.cedi-value::before{content:'GH\20B5 \00a0';color:#3e3e3e;font-weight:400;font-size:80%}#footer{padding:10px;height:50px;position:absolute;bottom:0;max-width:700px}#footer .disclaimer{font-size:12px;color:#7f7f7f}.card,.content{padding:1rem;margin-top:3rem}#results{padding:1rem}.primary-result{color:#5764c6}
+    </style>-->
 </head>
+
 <body>
-<div id="container">
-    <h2>Calculate your <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax">PAYE</a> Tax</h2>
-    <h4>This tool helps you compute your income tax, SSNIT and net income.</h4>
-    <form class="pure-form pure-form-stacked">
-        <label for="gross-income">Gross monthly income:</label>
-        <input id="gross-income" type="number" value="0">
-        <br/><label for="allowances">Other monthly allowances:</label>
-        <input id="allowances" type="number" value="0"> <br/>
-        <button id="submit-button" class="pure-button pure-button-primary">Compute</button>
-    </form>
+    <section id="container" class="container grid-480">
+        <div class="card content">
 
-    <div id="results" style="display: none">
-        <div class="result"><span>Income Tax: </span> <span class="cedi-value" id="income-tax"></span> </div>
-        <div class="result"><span>5.5% SSNIT: </span> <span class="cedi-value" id="ssnit-deduction"></span></div>
-        <div class="result"><span>Net Income: </span> <span class="cedi-value" id="net-income"></span></div>
-    </div>
-    <div id="footer">
-        <span class="disclaimer">Disclaimer: This tool is provided as a quick way of figuring out your take home income. We do our best to ensure its accuracy but we cannot be held responsible for any errors.</span>
-    </div>
+            <h1 class="text-center">Tax Calculator (🇬🇭)</h1>
+            <h6 class="text-center">This tool helps you compute your <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax" >PAYE</a>                income tax, SSNIT and net income.</h6>
+            <form class="form-horizontal">
+                <div class="form-group text-center">
+                    <label class="form-switch">
+                        <input type="checkbox" v-model="yearly"/>
+                        <i class="form-icon"></i> Check this if Gross Income is yearly (it will be divided 12)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <div class="col-4">
+                        <label class="form-label" for="gross-income">Gross income</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <span class="input-group-addon">GH¢</span>
+                            <input class="form-input" id="gross-income" type="number" v-model.number="grossIncome" />
+                        </div>
+                    </div>
+                </div>
 
-</div>
-<script type="text/javascript">
-    var ssnitRate = 5.5;
-    var monthlyTaxRates = [
-        [0,216],
-        [5,108],
-        [10,151],
-        [17.5,2765],
-        [25,Number.POSITIVE_INFINITY]
-    ];
-    var annualTaxRates = [
-        [0,2592],
-        [5,1296],
-        [10,1812],
-        [17.5,33180],
-        [25,Number.POSITIVE_INFINITY]
-    ];
+                <div class="form-group">
+                    <div class="col-4">
+                        <label class="form-label tooltip" for="allowances" data-tooltip="Like transport allowance etc">Other allowances</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <span class="input-group-addon">GH¢</span>
+                            <input class="form-input" id="allowances" type="number" v-model.number="allowances" />
+                        </div>
+                    </div>
+                </div>
+            </form>
 
-    function computeTaxes(gross,allowances,taxRates){
+            <div id="results">
+                <div class="columns">
+                    <div class="column col-12 primary-result-color">
+                        <div class="text-center">Net Income (take home)</div>
+                        <h2 class=" text-center">GH¢ {{netIncome}}</h2>
+                    </div>
+                </div>
 
-        var totalTax = 0.0;
-        var ssnit = gross * ssnitRate / 100.0;
-        var taxableRemaining = (gross - ssnit) + allowances;
+                <div class="divider text-center" data-content="DEDUCTIONS"></div>
 
-        for (var i = 0; i < taxRates.length; i++) {
-            if(taxableRemaining > 0){ //if there's money left to be taxed
-                var tranche = taxableRemaining > taxRates[i][1]? taxRates[i][1] : taxableRemaining; //ternary operator
-                totalTax += taxRates[i][0] * tranche / 100.0;
-                taxableRemaining -= tranche;
-//                console.log((i+1) +' Tax: ' + tax);
-//                console.log((i+1) +' Tranche: ' + tranche);
-//                console.log((i+1) +' Taxable: ' + taxableRemaining);
+                <div class="columns">
+                    <div class="column col-6">
+                        <span>Income Tax: GH¢ {{incomeTax}}</span>
+                    </div>
+                    <div class="column col-6">
+                        <span class="tooltip" data-tooltip="Contributes towards your pension">SSNIT: GH¢ {{ssnitDeduction}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section id="footer">
+        <div class="text-center disclaimer">Disclaimer: This tool is provided as a quick way of figuring out your take home income. We do our best to ensure
+            its accuracy but we cannot be held responsible for any errors.</div>
+            <div class="text-center disclaimer"> <a target="_blank" href="https://github.com/Kessir/taxcalculatorgh" rel="nofollow">Github</a> - <a target="_blank" href="https://twitter.com/kessir_" rel="nofollow">Twitter</a></div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.0/vue.js"></script>
+    <script type="text/javascript">
+        var ssnitRate = 5.5;
+        var monthlyTaxRates = [
+            [0, 216],
+            [5, 108],
+            [10, 151],
+            [17.5, 2765],
+            [25, Number.POSITIVE_INFINITY]
+        ];
+        var annualTaxRates = [
+            [0, 2592],
+            [5, 1296],
+            [10, 1812],
+            [17.5, 33180],
+            [25, Number.POSITIVE_INFINITY]
+        ];
+
+        function computeTaxes(gross, allowances, taxRates) {
+
+            var totalTax = 0.0;
+            var ssnit = gross * ssnitRate / 100.0;
+            var taxableRemaining = (gross - ssnit) + allowances;
+
+            for (var i = 0; i < taxRates.length; i++) {
+                if (taxableRemaining > 0) { //if there's money left to be taxed
+                    var tranche = taxableRemaining > taxRates[i][1] ? taxRates[i][1] : taxableRemaining; //ternary operator
+                    totalTax += taxRates[i][0] * tranche / 100.0;
+                    taxableRemaining -= tranche;
+                }
             }
-        }
-        return [totalTax,ssnit];
-    }
+            var netIncome = (gross + allowances) - totalTax - ssnit;
+            console.log('income, tax, ssnit: ', netIncome, totalTax, ssnit, gross, allowances)
 
-    $('#submit-button').click(function(event){
-        event.preventDefault();
-        var gross = $('#gross-income').val();
-        var allowance = $('#allowances').val();
-
-        if(!$.isNumeric(gross) || !$.isNumeric(allowance)){
-            alert('Invalid input');
-            return;
+            return { incomeTax: totalTax, ssnit: ssnit, netIncome: netIncome };
         }
 
-        gross = Number(gross);
-        allowance = Number(allowance);
+        new Vue({
+            el: '#container',
+            data: {
+                yearly: false,
+                grossIncome: 0,
+                allowances: 0,
+                incomeTax: 0,
+                ssnitDeduction: 0,
+                netIncome: 0
+            },
+            methods: {
+                calculate: function(gross, allowances, yearly){
+                    var result = yearly ? computeTaxes(gross/12.0, allowances, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
 
-        var taxes = computeTaxes(gross,allowance,monthlyTaxRates);
-        var net = gross + allowance - taxes[0] - taxes[1];
+                    this.netIncome = result.netIncome.toFixed(2);
+                    this.incomeTax = result.incomeTax.toFixed(2);
+                    this.ssnitDeduction = result.ssnit.toFixed(2);
+                }
+            },
+            watch: {
+                yearly: function(value){
+                   this.calculate(this.grossIncome, this.allowances, value);
+                },
+                grossIncome: function (value) {
+                    this.calculate(value, this.allowances, this.yearly);
+                },
+                allowances: function (value) {
+                   this.calculate(this.grossIncome, value, this.yearly);
+                },
+            }
+        })
+    </script>
+    <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-        $('#income-tax').html(taxes[0].toFixed(2));
-        $('#ssnit-deduction').html(taxes[1].toFixed(2));
-        $('#net-income').html(net.toFixed(2));
-
-        $('#results').show();
-    });
-
-</script>
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-32598219-6', 'auto');
-    ga('send', 'pageview');
-
-</script>
+        ga('create', 'UA-32598219-6', 'auto');
+        ga('send', 'pageview');
+    </script>
 </body>
+
 </html>
