@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
-    <meta name="description" content="This tool will help compute your take home income based on your yearly or monthly gross income">
+    <meta name="description" content="This tool will help compute your take home income based on your annual or monthly gross income">
     <title>Tax Calculator Ghana (🇬🇭)</title>
     <link rel="stylesheet" href="css/spectre.css">
     <!--<link rel="stylesheet" type="text/css" href="css/main.css">-->
@@ -20,7 +20,7 @@
             bottom: 0;
         }
         
-        #footer .disclaimer {
+       .disclaimer {
             font-size: 0.95rem;
             color: #7f7f7f;
         }
@@ -34,6 +34,8 @@
         
         #results {
             padding: 1rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
         }
         
         .primary-result-color {
@@ -54,20 +56,20 @@
     <section id="container" class="container grid-480">
         <div class="card content">
 
-            <h1 class="text-center">Tax Calculator (🇬🇭)</h1>
+            <h2 class="text-center">Tax Calculator (🇬🇭)</h2>
             <h6 class="text-center">This tool helps you compute your <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax">PAYE</a>                income tax, SSNIT and net income.</h6>
             <form class="form-horizontal" v-cloak>
                 <div class="form-group text-center">
                     <label class="form-switch">
-                        <input type="checkbox" v-model="yearly"/>
-                        <i class="form-icon"></i> Check this if Gross Income is yearly (it will be divided 12)
+                        <input type="checkbox" v-model="annual"/>
+                       Check this if Gross Income is annual (it will be divided 12) <i class="form-icon"></i> 
                     </label>
                 </div>
                 <div class="form-group">
-                    <div class="col-4">
-                        <label class="form-label" for="gross-income">Gross income</label>
+                    <div class="col-5">
+                        <label class="form-label" for="gross-income"> {{getPeriod()}} Gross Income</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-7">
                         <div class="input-group">
                             <span class="input-group-addon">GH¢</span>
                             <input class="form-input" id="gross-income" type="number" v-model.number="grossIncome" />
@@ -76,13 +78,13 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-4">
-                        <label class="form-label tooltip" for="allowances" data-tooltip="Like transport allowance etc">Other allowances</label>
+                    <div class="col-5">
+                        <label class="form-label tooltip" for="allowances" data-tooltip="Like transport allowance etc">Total Monthly Allowances*</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-7">
                         <div class="input-group">
                             <span class="input-group-addon">GH¢</span>
-                            <input class="form-input" id="allowances" type="number" v-model.number="allowances" />
+                            <input class="form-input" id="allowances" type="number" v-model.number="allowances" :disabled="annual" />
                         </div>
                     </div>
                 </div>
@@ -92,7 +94,7 @@
                 <div class="columns">
                     <div class="column col-12 primary-result-color">
                         <div class="text-center">Net Income (take home)</div>
-                        <h2 class=" text-center">GH¢ {{netIncome}}</h2>
+                        <h1 class=" text-center">GH¢ {{netIncome}}</h1>
                     </div>
                 </div>
 
@@ -107,7 +109,7 @@
                     </div>
                 </div>
             </div>
-
+            <div class="disclaimer">* Allowances are also taxed</div>
         </div>
     </section>
     <section id="footer">
@@ -149,39 +151,43 @@
                 }
             }
             var netIncome = (gross + allowances) - totalTax - ssnit;
-            console.log('income, tax, ssnit: ', netIncome, totalTax, ssnit, gross, allowances)
-
             return { incomeTax: totalTax, ssnit: ssnit, netIncome: netIncome };
         }
 
         new Vue({
             el: '#container',
             data: {
-                yearly: false,
-                grossIncome: 0,
+                annual: false,
+                grossIncome: 0.0,
                 allowances: 0,
                 incomeTax: 0,
                 ssnitDeduction: 0,
-                netIncome: 0
+                netIncome: 0.00
             },
             methods: {
-                calculate: function (gross, allowances, yearly) {
-                    var result = yearly ? computeTaxes(gross / 12.0, allowances, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
+                calculate: function (gross, allowances, annual) {
+                    var result = annual ? computeTaxes(gross / 12.0, allowances, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
 
                     this.netIncome = result.netIncome.toFixed(2);
                     this.incomeTax = result.incomeTax.toFixed(2);
                     this.ssnitDeduction = result.ssnit.toFixed(2);
+                },
+                getPeriod: function () {
+                    return this.annual ? 'Annual' : 'Monthly'
                 }
             },
             watch: {
-                yearly: function (value) {
+                annual: function (value) {
+                    if (value) {
+                        this.allowances = 0;
+                    }
                     this.calculate(this.grossIncome, this.allowances, value);
                 },
                 grossIncome: function (value) {
-                    this.calculate(value, this.allowances, this.yearly);
+                    this.calculate(value, this.allowances, this.annual);
                 },
                 allowances: function (value) {
-                    this.calculate(this.grossIncome, value, this.yearly);
+                    this.calculate(this.grossIncome, value, this.annual);
                 },
             }
         })
