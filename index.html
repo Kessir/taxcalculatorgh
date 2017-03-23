@@ -5,13 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
-    <meta name="description" content="This site will help compute your take home income based on your yearly or monthly gross income">
+    <meta name="description" content="This tool will help compute your take home income based on your yearly or monthly gross income">
     <title>Tax Calculator Ghana (🇬🇭)</title>
     <link rel="stylesheet" href="css/spectre.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <!--<style>
-        body{background-color:#fafafa}#results .cedi-value{font-weight:700;font-size:110%}.cedi-value::before{content:'GH\20B5 \00a0';color:#3e3e3e;font-weight:400;font-size:80%}#footer{padding:10px;height:50px;position:absolute;bottom:0;max-width:700px}#footer .disclaimer{font-size:12px;color:#7f7f7f}.card,.content{padding:1rem;margin-top:3rem}#results{padding:1rem}.primary-result{color:#5764c6}
-    </style>-->
+    <!--<link rel="stylesheet" type="text/css" href="css/main.css">-->
+    <style>
+        body {
+            background-color: #fafafa;
+        }
+        
+        #footer {
+            padding: 10px;
+            height: 50px;
+            bottom: 0;
+        }
+        
+        #footer .disclaimer {
+            font-size: 0.95rem;
+            color: #7f7f7f;
+        }
+        
+        .card,
+        .content {
+            padding: 1rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        #results {
+            padding: 1rem;
+        }
+        
+        .primary-result-color {
+            color: #5764c6
+        }
+        
+        .divider[data-content]::before {
+            color: #8c8c8c
+        }
+        
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,8 +55,8 @@
         <div class="card content">
 
             <h1 class="text-center">Tax Calculator (🇬🇭)</h1>
-            <h6 class="text-center">This tool helps you compute your <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax" >PAYE</a>                income tax, SSNIT and net income.</h6>
-            <form class="form-horizontal">
+            <h6 class="text-center">This tool helps you compute your <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax">PAYE</a>                income tax, SSNIT and net income.</h6>
+            <form class="form-horizontal" v-cloak>
                 <div class="form-group text-center">
                     <label class="form-switch">
                         <input type="checkbox" v-model="yearly"/>
@@ -52,7 +88,7 @@
                 </div>
             </form>
 
-            <div id="results">
+            <div id="results" v-cloak>
                 <div class="columns">
                     <div class="column col-12 primary-result-color">
                         <div class="text-center">Net Income (take home)</div>
@@ -77,10 +113,11 @@
     <section id="footer">
         <div class="text-center disclaimer">Disclaimer: This tool is provided as a quick way of figuring out your take home income. We do our best to ensure
             its accuracy but we cannot be held responsible for any errors.</div>
-            <div class="text-center disclaimer"> <a target="_blank" href="https://github.com/Kessir/taxcalculatorgh" rel="nofollow">Github</a> - <a target="_blank" href="https://twitter.com/kessir_" rel="nofollow">Twitter</a></div>
+        <div class="text-center disclaimer"> <a target="_blank" href="https://github.com/Kessir/taxcalculatorgh" rel="nofollow">Github</a> - <a target="_blank"
+                href="https://twitter.com/kessir_" rel="nofollow">Twitter</a></div>
     </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.0/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
     <script type="text/javascript">
         var ssnitRate = 5.5;
         var monthlyTaxRates = [
@@ -128,8 +165,8 @@
                 netIncome: 0
             },
             methods: {
-                calculate: function(gross, allowances, yearly){
-                    var result = yearly ? computeTaxes(gross/12.0, allowances, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
+                calculate: function (gross, allowances, yearly) {
+                    var result = yearly ? computeTaxes(gross / 12.0, allowances, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
 
                     this.netIncome = result.netIncome.toFixed(2);
                     this.incomeTax = result.incomeTax.toFixed(2);
@@ -137,14 +174,14 @@
                 }
             },
             watch: {
-                yearly: function(value){
-                   this.calculate(this.grossIncome, this.allowances, value);
+                yearly: function (value) {
+                    this.calculate(this.grossIncome, this.allowances, value);
                 },
                 grossIncome: function (value) {
                     this.calculate(value, this.allowances, this.yearly);
                 },
                 allowances: function (value) {
-                   this.calculate(this.grossIncome, value, this.yearly);
+                    this.calculate(this.grossIncome, value, this.yearly);
                 },
             }
         })
