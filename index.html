@@ -20,7 +20,7 @@
             bottom: 0;
         }
         
-       .disclaimer {
+        .disclaimer {
             font-size: 0.95rem;
             color: #7f7f7f;
         }
@@ -57,11 +57,11 @@
         <div class="card content">
 
             <h2 class="text-center">Tax Calculator 🇬🇭</h2>
-            <h6 class="text-center">Compute your net income, <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax">PAYE</a> income tax and SSNIT deduction</h6>
+            <h6 class="text-center">Compute your net income, <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax">PAYE</a>                income tax and SSNIT deduction</h6>
             <form class="form-horizontal" v-cloak>
                 <div class="form-group text-center">
                     <label class="form-switch">
-                        <input type="checkbox" v-model="annual"/>
+                        <input type="checkbox" v-model="isAnnual"/>
                        Check this if income is annual<i class="form-icon"></i> 
                     </label>
                 </div>
@@ -94,7 +94,7 @@
                 <div class="columns">
                     <div class="column col-12 primary-result-color">
                         <div class="text-center">Monthly Net Income (take home)</div>
-                        <h1 class=" text-center">GH¢ {{netIncome}}</h1>
+                        <h1 class=" text-center">GH¢ {{ taxResult.netIncome }}</h1>
                     </div>
                 </div>
 
@@ -102,10 +102,10 @@
 
                 <div class="columns">
                     <div class="column col-6">
-                        <span>Income Tax: GH¢ {{incomeTax}}</span>
+                        <span>Income Tax: GH¢ {{taxResult.incomeTax}}</span>
                     </div>
                     <div class="column col-6">
-                        <span class="tooltip" data-tooltip="Contributes towards your pension">SSNIT: GH¢ {{ssnitDeduction}}</span>
+                        <span class="tooltip" data-tooltip="Contributes towards your pension">SSNIT: GH¢ {{ taxResult.ssnit }}</span>
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
                 href="https://twitter.com/kessir_" rel="nofollow">Twitter</a></div>
     </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.js"></script>
     <script type="text/javascript">
         var ssnitRate = 5.5;
         var monthlyTaxRates = [
@@ -157,41 +157,26 @@
         new Vue({
             el: '#container',
             data: {
-                annual: false,
-                grossIncome: 0.0,
-                allowances: 0,
-                incomeTax: 0,
-                ssnitDeduction: 0,
-                netIncome: 0.00
+                isAnnual: false,
+                grossIncome: 0,
+                allowances: 0
             },
             methods: {
-                calculate: function (gross, allowances, annual) {
-                    var result = annual ? computeTaxes(gross / 12.0, allowances / 12.0, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
-
-                    this.netIncome = result.netIncome.toFixed(2);
-                    this.incomeTax = result.incomeTax.toFixed(2);
-                    this.ssnitDeduction = result.ssnit.toFixed(2);
+                calculate: function (gross, allowances, isAnnual) {
+                    var result = isAnnual ? computeTaxes(gross / 12.0, allowances / 12.0, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
+                    result.netIncome = result.netIncome.toFixed(2);
+                    result.incomeTax = result.incomeTax.toFixed(2);
+                    result.ssnit = result.ssnit.toFixed(2);
+                    return result;
                 },
                 getPeriod: function () {
-                    return this.annual ? 'Annual' : 'Monthly'
+                    return this.isAnnual ? 'Annual' : 'Monthly'
                 }
             },
-            computed:{
-
-            },
-            watch: {
-                annual: function (value) {
-                    // if (value) {
-                    //     this.allowances = 0;
-                    // }
-                    this.calculate(this.grossIncome, this.allowances, value);
-                },
-                grossIncome: function (value) {
-                    this.calculate(value, this.allowances, this.annual);
-                },
-                allowances: function (value) {
-                    this.calculate(this.grossIncome, value, this.annual);
-                },
+            computed: {
+                taxResult: function(){
+                    return this.calculate(this.grossIncome, this.allowances, this.isAnnual);
+                }
             }
         })
     </script>
