@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
-    <meta name="description" content="This tool will help compute your take home income based on your annual or monthly gross income">
-    <title>Tax Calculator Ghana (🇬🇭)</title>
+    <meta name="description" content="This tool will help compute your take home income based on your annual or monthly gross income.s">
+    <title>Tax Calculator Ghana 🇬🇭</title>
     <link rel="stylesheet" href="css/spectre.css">
     <!--<link rel="stylesheet" type="text/css" href="css/main.css">-->
     <style>
@@ -62,7 +62,7 @@
                 <div class="form-group text-center">
                     <label class="form-switch">
                         <input type="checkbox" v-model="annual"/>
-                       Check this if gross income is annual<i class="form-icon"></i> 
+                       Check this if income is annual<i class="form-icon"></i> 
                     </label>
                 </div>
                 <div class="form-group">
@@ -79,12 +79,12 @@
 
                 <div class="form-group">
                     <div class="col-5">
-                        <label class="form-label tooltip" for="allowances" data-tooltip="Like transport allowance etc">Monthly Allowances*</label>
+                        <label class="form-label tooltip" for="allowances" data-tooltip="Like transport allowance etc">{{getPeriod()}} Allowances*</label>
                     </div>
                     <div class="col-7">
                         <div class="input-group">
                             <span class="input-group-addon">GH¢</span>
-                            <input class="form-input" id="allowances" type="number" v-model.number="allowances" :disabled="annual" />
+                            <input class="form-input" id="allowances" type="number" v-model.number="allowances" />
                         </div>
                     </div>
                 </div>
@@ -93,12 +93,12 @@
             <div id="results" v-cloak>
                 <div class="columns">
                     <div class="column col-12 primary-result-color">
-                        <div class="text-center">Net Income (take home)</div>
+                        <div class="text-center">Monthly Net Income (take home)</div>
                         <h1 class=" text-center">GH¢ {{netIncome}}</h1>
                     </div>
                 </div>
 
-                <div class="divider text-center" data-content="DEDUCTIONS"></div>
+                <div class="divider text-center" data-content="MONTHLY DEDUCTIONS"></div>
 
                 <div class="columns">
                     <div class="column col-6">
@@ -129,13 +129,13 @@
             [17.5, 2765],
             [25, Number.POSITIVE_INFINITY]
         ];
-        var annualTaxRates = [
-            [0, 2592],
-            [5, 1296],
-            [10, 1812],
-            [17.5, 33180],
-            [25, Number.POSITIVE_INFINITY]
-        ];
+        // var annualTaxRates = [
+        //     [0, 2592],
+        //     [5, 1296],
+        //     [10, 1812],
+        //     [17.5, 33180],
+        //     [25, Number.POSITIVE_INFINITY]
+        // ];
 
         function computeTaxes(gross, allowances, taxRates) {
 
@@ -166,7 +166,7 @@
             },
             methods: {
                 calculate: function (gross, allowances, annual) {
-                    var result = annual ? computeTaxes(gross / 12.0, allowances, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
+                    var result = annual ? computeTaxes(gross / 12.0, allowances / 12.0, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
 
                     this.netIncome = result.netIncome.toFixed(2);
                     this.incomeTax = result.incomeTax.toFixed(2);
@@ -176,11 +176,14 @@
                     return this.annual ? 'Annual' : 'Monthly'
                 }
             },
+            computed:{
+
+            },
             watch: {
                 annual: function (value) {
-                    if (value) {
-                        this.allowances = 0;
-                    }
+                    // if (value) {
+                    //     this.allowances = 0;
+                    // }
                     this.calculate(this.grossIncome, this.allowances, value);
                 },
                 grossIncome: function (value) {
