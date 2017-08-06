@@ -13,41 +13,45 @@
         body {
             background-color: #fafafa;
         }
-        
+
         #footer {
             padding: 10px;
             height: 50px;
             bottom: 0;
         }
-        
+
         .disclaimer {
             font-size: 0.95rem;
             color: #7f7f7f;
         }
-        
+
         .card,
         .content {
             padding: 1rem;
             margin-top: 3rem;
             margin-bottom: 3rem;
         }
-        
+
         #results {
             padding: 1rem;
             margin-top: 2rem;
             margin-bottom: 1rem;
         }
-        
+
         .primary-result-color {
             color: #5764c6
         }
-        
+
         .divider[data-content]::before {
             color: #8c8c8c
         }
-        
+
         [v-cloak] {
             display: none;
+        }
+
+        .text-danger {
+            color: red;
         }
     </style>
 </head>
@@ -62,7 +66,7 @@
                 <div class="form-group text-center">
                     <label class="form-switch">
                         <input type="checkbox" v-model="isAnnual"/>
-                       Check this if income is annual<i class="form-icon"></i> 
+                       Check this if income is annual<i class="form-icon"></i>
                     </label>
                 </div>
                 <div class="form-group">
@@ -93,8 +97,9 @@
             <div id="results" v-cloak>
                 <div class="columns">
                     <div class="column col-12 primary-result-color">
-                        <div class="text-center">Monthly Net Income (take home)</div>
-                        <h1 class=" text-center">GH¢ {{ taxResult.netIncome }}</h1>
+                        <div class="text-center" v-if="inputsArePositive">Monthly Net Income (take home)</div>
+                        <h1 class=" text-center" v-if="inputsArePositive">GH¢ {{ taxResult.netIncome }}</h1>
+                        <h1 class=" text-center text-danger" v-else>Please input positive numbers.</h1>
                     </div>
                 </div>
 
@@ -102,10 +107,12 @@
 
                 <div class="columns">
                     <div class="column col-6">
-                        <span>Income Tax: GH¢ {{taxResult.incomeTax}}</span>
+                        <span v-if="inputsArePositive">Income Tax: GH¢ {{taxResult.incomeTax}}</span>
+                        <span v-else>Income Tax: N/A</span>
                     </div>
                     <div class="column col-6">
-                        <span class="tooltip" data-tooltip="Contributes towards your pension">SSNIT: GH¢ {{ taxResult.ssnit }}</span>
+                        <span class="tooltip" data-tooltip="Contributes towards your pension" v-if="inputsArePositive">SSNIT: GH¢ {{ taxResult.ssnit }}</span>
+                        <span v-else>SSNIT: N/A</span>
                     </div>
                 </div>
             </div>
@@ -129,7 +136,7 @@
             [17.5, 2765],
             [25, Number.POSITIVE_INFINITY]
         ];
- 
+
         function computeTaxes(gross, allowances, taxRates) {
 
             var totalTax = 0.0;
@@ -144,7 +151,16 @@
                 }
             }
             var netIncome = (gross + allowances) - totalTax - ssnit;
-            return { incomeTax: totalTax, ssnit: ssnit, netIncome: netIncome };
+            return {
+                incomeTax: totalTax,
+                ssnit: ssnit,
+                netIncome: netIncome
+            };
+        }
+
+        function isPositiveNumber(number) {
+            var positiveNumberRegex = new RegExp(/^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/);
+            return positiveNumberRegex.test(number);
         }
 
         new Vue({
@@ -156,7 +172,8 @@
             },
             methods: {
                 calculate: function (gross, allowances, isAnnual) {
-                    var result = isAnnual ? computeTaxes(gross / 12.0, allowances / 12.0, monthlyTaxRates) : computeTaxes(gross, allowances, monthlyTaxRates);
+                    var result = isAnnual ? computeTaxes(gross / 12.0, allowances / 12.0, monthlyTaxRates) :
+                        computeTaxes(gross, allowances, monthlyTaxRates);
                     result.netIncome = result.netIncome.toFixed(2);
                     result.incomeTax = result.incomeTax.toFixed(2);
                     result.ssnit = result.ssnit.toFixed(2);
@@ -164,25 +181,40 @@
                 },
                 getPeriod: function () {
                     return this.isAnnual ? 'Annual' : 'Monthly'
+                },
+                isPostive: function (val) {
+                    if (val && val !== 0) {
+                        return isPositiveNumber(val);
+                    }
+                    return true;
                 }
             },
             computed: {
-                taxResult: function(){
+                taxResult: function () {
                     return this.calculate(this.grossIncome, this.allowances, this.isAnnual);
+                },
+                inputsArePositive: function () {
+                    return (this.isPostive(this.grossIncome) && this.isPostive(this.allowances));
                 }
             }
         })
     </script>
     <script>
-            (function (i, s, o, g, r, a, m) {
-                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', 'UA-32598219-6', 'auto');
         ga('send', 'pageview');
     </script>
 </body>
+
 </html>
