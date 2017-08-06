@@ -51,7 +51,7 @@
         }
 
         .text-danger {
-            color: red;
+            color: #ea8479;
         }
     </style>
 </head>
@@ -99,7 +99,7 @@
                     <div class="column col-12 primary-result-color">
                         <div class="text-center" v-if="inputsArePositive">Monthly Net Income (take home)</div>
                         <h1 class=" text-center" v-if="inputsArePositive">GH¢ {{ taxResult.netIncome }}</h1>
-                        <h1 class=" text-center text-danger" v-else>Please input positive numbers.</h1>
+                        <h2 class=" text-center text-danger" v-else>Please input positive numbers.</h2>
                     </div>
                 </div>
 
