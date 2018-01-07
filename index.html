@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
     <meta name="description" content="This tool helps compute your take-home income, income tax and SSNIT contribution based on your gross income.">
-    <title>Tax Calculator Ghana 🇬🇭</title>
+    <title>Tax Calculator Ghana ðŸ‡¬ðŸ‡­</title>
     <link rel="stylesheet" href="css/spectre.css">
     <!--<link rel="stylesheet" type="text/css" href="css/main.css">-->
     <style>
@@ -91,7 +91,7 @@
     <section id="container" class="container grid-480">
         <div class="card content">
 
-            <h2 class="text-center">Tax Calculator 🇬🇭</h2>
+            <h2 class="text-center">Tax Calculator ðŸ‡¬ðŸ‡­</h2>
             <h6 class="text-center">Compute your net income, <a target="_blank" href="http://www.gra.gov.gh/index.php/tax-information/income-tax">PAYE</a>                income tax and SSNIT deduction</h6>
             <form class="form-horizontal" v-cloak>
                 <div class="form-group text-center">
@@ -106,7 +106,7 @@
                     </div>
                     <div class="col-7">
                         <div class="input-group">
-                            <span class="input-group-addon">GH¢</span>
+                            <span class="input-group-addon">GHÂ¢</span>
                             <input class="form-input" id="gross-income" type="number" v-model.number="grossIncome" />
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="col-7">
                         <div class="input-group">
-                            <span class="input-group-addon">GH¢</span>
+                            <span class="input-group-addon">GHÂ¢</span>
                             <input class="form-input" id="allowances" type="number" v-model.number="allowances" />
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                 <div class="columns">
                     <div class="column col-12 primary-result-color">
                         <div class="text-center" v-if="inputsArePositive">Monthly Net Income (take home)</div>
-                        <h1 class=" text-center" v-if="inputsArePositive">GH¢ {{ taxResult.netIncome }}</h1>
+                        <h1 class=" text-center" v-if="inputsArePositive">GHÂ¢ {{ taxResult.netIncome }}</h1>
                         <h2 class=" text-center text-danger" v-else>Please input positive numbers.</h2>
                     </div>
                 </div>
@@ -138,11 +138,11 @@
 
                 <div class="columns">
                     <div class="column col-6">
-                        <span v-if="inputsArePositive">Income Tax: GH¢ {{taxResult.incomeTax}}</span>
+                        <span v-if="inputsArePositive">Income Tax: GHÂ¢ {{taxResult.incomeTax}}</span>
                         <span v-else>Income Tax: N/A</span>
                     </div>
                     <div class="column col-6">
-                        <span class="tooltip" data-tooltip="Contributes towards your pension" v-if="inputsArePositive">SSNIT: GH¢ {{ taxResult.ssnit }}</span>
+                        <span class="tooltip" data-tooltip="Contributes towards your pension" v-if="inputsArePositive">SSNIT: GHÂ¢ {{ taxResult.ssnit }}</span>
                         <span v-else>SSNIT: N/A</span>
                     </div>
                 </div>
@@ -182,14 +182,13 @@
             var totalTax = 0.0;
             var ssnit = gross * ssnitRate / 100.0;
             var taxableRemaining = (gross - ssnit) + allowances;
-
-          var i = 0;
-            while (i < taxRates.length && taxableRemaning > 0) {
-                 var tranche = taxableRemaining > taxRates[i][1] ? taxRates[i][1] : taxableRemaining; //ternary operator
+			var tranche = 0;
+            for (var i = 0; i < taxRates.length; i++) {
+                if (taxableRemaining > 0) { //if there's money left to be taxed
+                    tranche = taxableRemaining > taxRates[i][1] ? taxRates[i][1] : taxableRemaining; //ternary operator
                     totalTax += taxRates[i][0] * tranche / 100.0;
                     taxableRemaining -= tranche;
-            
-                i++;
+                }
             }
             var netIncome = (gross + allowances) - totalTax - ssnit;
             return {
