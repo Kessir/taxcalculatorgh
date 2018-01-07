@@ -183,12 +183,13 @@
             var ssnit = gross * ssnitRate / 100.0;
             var taxableRemaining = (gross - ssnit) + allowances;
 
-            for (var i = 0; i < taxRates.length; i++) {
-                if (taxableRemaining > 0) { //if there's money left to be taxed
-                    var tranche = taxableRemaining > taxRates[i][1] ? taxRates[i][1] : taxableRemaining; //ternary operator
+          var i = 0;
+            while (i < taxRates.length && taxableRemaning > 0) {
+                 var tranche = taxableRemaining > taxRates[i][1] ? taxRates[i][1] : taxableRemaining; //ternary operator
                     totalTax += taxRates[i][0] * tranche / 100.0;
                     taxableRemaining -= tranche;
-                }
+            
+                i++;
             }
             var netIncome = (gross + allowances) - totalTax - ssnit;
             return {
