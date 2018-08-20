@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "decimal.js": "^10.0.1",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.16"
   },

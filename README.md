@@ -1,4 +1,5 @@
-# tax-calculator
+# Ghana Tax Calculator
+Ghana has a progressive tax ... which can be difficult to understand for the average person. This tool makes it easier for people to compute their take-home income.
 
 ## Project setup
 ```

@@ -5,7 +5,96 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>tax-calculator</title>
+    <meta name="description" content="This tool helps compute your take-home income, income tax and SSNIT contribution based on your gross income.">
+    <title>Tax Calculator Ghana 🇬🇭</title>
+    <link rel="stylesheet" href="css/spectre.css">
+    <style>
+      body {
+          background-color: #fafafa;
+      }
+
+      #footer {
+          padding: 10px;
+          margin-bottom: 1.6rem;
+      }
+      #footer div{
+          font-size: 1.2rem;
+          color: #7f7f7f;
+          margin-top: 14px;
+      }
+
+      .card,
+      .content {
+          padding: 1rem;
+          /*margin-top: 3rem;*/
+          margin-bottom: 1.2rem;
+          border: .1rem solid #e9e9e9;
+      }
+
+      #results {
+          padding: 1rem;
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+      }
+
+      .primary-result-color {
+          color: #5764c6
+      }
+
+      .divider[data-content]::before {
+          color: #8c8c8c
+      }
+
+      [v-cloak] {
+          display: none;
+      }
+
+      .text-danger {
+          color: #ea8479;
+      }
+
+      hr{
+          border: 1px solid #efefef;
+      }
+
+      ul.share-buttons{
+          list-style: none;
+          padding: 0;
+          margin: 4px;
+      }
+
+      ul.share-buttons li{
+          display: inline;
+          padding: 0 4px;
+      }
+
+      ul.share-buttons .sr-only{
+          position: absolute;
+          clip: rect(1px 1px 1px 1px);
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 0;
+          border: 0;
+          height: 1px;
+          width: 1px;
+          overflow: hidden;
+      }
+      .share-buttons svg{
+          max-height: 25px;
+          max-width: 25px;
+          fill: #5764c6;
+      }
+      .tax-alert{
+          width: 100%;
+          text-align: center;
+          padding: 4px 6px;
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+          color: #fff;
+          background: #6684ea;
+          display: block;
+          border-radius: 3px;
+      }
+  </style>
   </head>
   <body>
     <noscript>
@@ -13,5 +102,21 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+      (function (i, s, o, g, r, a, m) {
+          i['GoogleAnalyticsObject'] = r;
+          i[r] = i[r] || function () {
+              (i[r].q = i[r].q || []).push(arguments)
+          }, i[r].l = 1 * new Date();
+          a = s.createElement(o),
+              m = s.getElementsByTagName(o)[0];
+          a.async = 1;
+          a.src = g;
+          m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-32598219-6', 'auto');
+      ga('send', 'pageview');
+  </script>
   </body>
 </html>
