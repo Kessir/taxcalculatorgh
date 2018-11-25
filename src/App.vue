@@ -63,6 +63,27 @@
                             <span v-else>SSNIT: N/A</span>
                         </div>
                     </div>
+                    <div class="columns">
+                        <div class="column col-12">
+                            <h4>Details</h4>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <td>Amount taxed</td>
+                                    <td>Rate</td>
+                                    <td>Amount</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(band, index) in taxResult.computationBreakdown" :key="index">
+                                    <td>GHC {{band.amountTaxed}}</td>
+                                    <td>{{band.taxRate}} %</td>
+                                    <td>GHC {{band.taxAmount}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="disclaimer">* Allowances are also taxed</div>
             </div>
@@ -113,7 +134,7 @@
 
 <script>
 // import HelloWorld from "./components/HelloWorld.vue";
-import { isPostive, calculate } from "./lib/helpers.js";
+import { isPostive, calculate } from "./lib/core.js";
 
 export default {
   name: "app",

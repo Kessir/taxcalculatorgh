@@ -1,4 +1,4 @@
-import { isPositiveNumber, calculate } from "../../src/lib/helpers.js";
+import { isPositiveNumber, calculate } from "../../src/lib/core.js";
 
 describe("Helper", () => {
   describe("#isPositiveNumber", () => {

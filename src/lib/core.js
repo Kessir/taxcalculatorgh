@@ -15,31 +15,43 @@ function calculate(gross, allowances, isAnnual = false) {
         new Decimal(allowances),
         monthlyTaxRates
       );
-  console.log("result", result);
   return result;
 }
 
-function computeTaxes(gross, allowances, taxRates) {
+function computeTaxes(grossIncome, allowances, taxRates) {
   let totalTax = new Decimal(0);
-  const ssnitContribution = new Decimal(gross).times(SSNIT_RATE).dividedBy(100);
-  let taxableRemaining = new Decimal(gross)
+  const ssnitContribution = new Decimal(grossIncome)
+    .times(SSNIT_RATE)
+    .dividedBy(100);
+  let taxableRemaining = new Decimal(grossIncome)
     .minus(ssnitContribution)
     .plus(allowances);
 
+  const computationBreakdown = [];
+
   for (let i = 0; i < taxRates.length; i++) {
     if (taxableRemaining.gt(0)) {
-      //if there's money left to be taxed
-      const tranche =
-        taxableRemaining > taxRates[i][1] ? taxRates[i][1] : taxableRemaining; //ternary operator
-      const trancheTax = new Decimal(taxRates[i][0])
-        .times(tranche)
+      const [taxRate, taxableAmount] = taxRates[i];
+      const actualTaxableAmount = taxableRemaining.gt(taxableAmount)
+        ? new Decimal(taxableAmount)
+        : taxableRemaining;
+
+      const trancheTax = new Decimal(taxRate)
+        .times(actualTaxableAmount)
         .dividedBy(100);
 
       totalTax = totalTax.plus(trancheTax);
-      taxableRemaining = taxableRemaining.minus(tranche);
+
+      computationBreakdown.push({
+        taxRate,
+        taxAmount: trancheTax.toFixed(2),
+        amountTaxed: actualTaxableAmount.toFixed(2)
+      });
+
+      taxableRemaining = taxableRemaining.minus(actualTaxableAmount);
     }
   }
-  const netIncome = gross
+  const netIncome = grossIncome
     .plus(allowances)
     .minus(totalTax)
     .minus(ssnitContribution);
@@ -47,7 +59,8 @@ function computeTaxes(gross, allowances, taxRates) {
   return {
     incomeTax: totalTax.toFixed(2),
     ssnit: ssnitContribution.toFixed(2),
-    netIncome: netIncome.toFixed(2)
+    netIncome: netIncome.toFixed(2),
+    computationBreakdown
   };
 }
 
@@ -62,6 +75,7 @@ function isPostive(val) {
   }
   return true;
 }
+
 export {
   isPostive,
   monthlyTaxRates,
