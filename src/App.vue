@@ -65,13 +65,13 @@
                     </div>
                     <div class="columns">
                         <div class="column col-12">
-                            <h4>Details</h4>
-                            <table>
+                            <h5>Show detailed</h5>
+                            <table class="table table-striped table-scroll">
                                 <thead>
                                 <tr>
-                                    <td>Amount taxed</td>
-                                    <td>Rate</td>
-                                    <td>Amount</td>
+                                    <th>Taxed Amount</th>
+                                    <th>Rate</th>
+                                    <th>Tax paid</th>
                                 </tr>
                                 </thead>
                                 <tbody>
