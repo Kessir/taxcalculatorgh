@@ -24,6 +24,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.0.1",
     "lint-staged": "^7.2.0",
+    "vue-jest": "^3.0.0",
     "vue-template-compiler": "^2.5.16"
   },
   "gitHooks": {
@@ -38,5 +39,15 @@
       "vue-cli-service lint",
       "git add"
     ]
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      ".*\\.(vue)$": "vue-jest"
+    }
   }
 }
