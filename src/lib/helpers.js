@@ -1,14 +1,7 @@
 import { Decimal } from "decimal.js";
+import { SSNIT_RATE, monthlyTaxRates } from "./rates";
 
-const SSNIT_RATE = 5.5;
 const NUM_OF_MONTHS = 12;
-const monthlyTaxRates = [
-  [0, 261],
-  [5, 70],
-  [10, 100],
-  [17.5, 2810],
-  [25, Number.POSITIVE_INFINITY] // anything above GHC 3,241
-];
 
 function calculate(gross, allowances, isAnnual = false) {
   var result = isAnnual
