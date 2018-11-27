@@ -45,7 +45,7 @@ function computeTaxes(grossIncome, allowances, taxRates) {
       computationBreakdown.push({
         taxRate,
         taxAmount: trancheTax.toFixed(2),
-        amountTaxed: actualTaxableAmount.toFixed(2)
+        amountTaxed: actualTaxableAmount.toFixed(0)
       });
 
       taxableRemaining = taxableRemaining.minus(actualTaxableAmount);
@@ -69,15 +69,13 @@ function isPositiveNumber(number) {
   return positiveNumberRegex.test(number);
 }
 
-function isPostive(val) {
-  if (val && val !== 0) {
-    return isPositiveNumber(val);
-  }
-  return true;
+function isPositive(val) {
+  if (val === "") return false;
+  return isPositiveNumber(val);
 }
 
 export {
-  isPostive,
+  isPositive,
   monthlyTaxRates,
   calculate,
   isPositiveNumber,

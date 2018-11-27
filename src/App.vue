@@ -46,30 +46,31 @@
                         <div class="column col-12 primary-result-color">
                             <div class="text-center" v-if="inputsArePositive">Monthly Net Income (take home)</div>
                             <h1 class=" text-center" v-if="inputsArePositive">GH¢ {{ taxResult.netIncome }}</h1>
-                            <h2 class=" text-center text-danger" v-else>Please input positive numbers.</h2>
+                            <h2 class=" text-center text-danger" v-else>Please input valid amounts</h2>
                         </div>
                     </div>
 
                     <div class="divider text-center" data-content="MONTHLY DEDUCTIONS"></div>
 
-                    <div class="columns">
-                        <div class="column col-6">
+                    <div class="columns text-center">
+                        <div class="column col-6 primary-result-color">
                             <span v-if="inputsArePositive">Income Tax: GH¢ {{taxResult.incomeTax}}</span>
                             <span v-else>Income Tax: N/A</span>
                         </div>
-                        <div class="column col-6">
+                        <div class="column col-6 primary-result-color">
                             <span class="tooltip" data-tooltip="Contributes towards your pension"
                                   v-if="inputsArePositive">SSNIT: GH¢ {{ taxResult.ssnit }}</span>
                             <span v-else>SSNIT: N/A</span>
                         </div>
                     </div>
                     <div class="columns">
-                        <div class="column col-12">
-                            <h5>Show detailed</h5>
-                            <table class="table table-striped table-scroll">
+                        <div class="column col-12 text-center">
+                            <button class="btn" @click="showDetails = !showDetails">Show detailed result</button>
+
+                            <table class="table table-striped table-scroll" v-if="showDetails" transition="expand">
                                 <thead>
                                 <tr>
-                                    <th>Taxed Amount</th>
+                                    <th>Taxable amount</th>
                                     <th>Rate</th>
                                     <th>Tax paid</th>
                                 </tr>
@@ -133,15 +134,15 @@
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
-import { isPostive, calculate } from "./lib/core.js";
+import { isPositive, calculate } from "./lib/core.js";
 
 export default {
   name: "app",
   data: () => ({
     isAnnual: false,
     grossIncome: 0,
-    allowances: 0
+    allowances: 0,
+    showDetails: false
   }),
   methods: {
     getPeriod() {
@@ -153,7 +154,7 @@ export default {
       return calculate(this.grossIncome, this.allowances, this.isAnnual);
     },
     inputsArePositive() {
-      return isPostive(this.grossIncome) && isPostive(this.allowances);
+      return isPositive(this.grossIncome) && isPositive(this.allowances);
     }
   }
 };
