@@ -111,7 +111,7 @@
                             </svg>
                         </a></li>
                     <li>
-                        <a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fkessir.github.io%2Ftaxcalculatorgh&text=A%20tool%20to%20compute%20take-home%20income%2C%20income%20tax%20and%20SSNIT:%20https%3A%2F%2Fkessir.github.io%2Ftaxcalculatorgh&via=kessir_"
+                        <a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fkessir.github.io%2Ftaxcalculatorgh&text=A%20tool%20to%20compute%20take-home%20income%2C%20income%20tax%20and%20SSNIT:%20https%3A%2F%2Fkessir.github.io%2Ftaxcalculatorgh&via=TaxCalculatorGh"
                            target="_blank" title="Tweet">
                             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
                                  clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414">
