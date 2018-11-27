@@ -65,7 +65,7 @@
                     </div>
                     <div class="columns">
                         <div class="column col-12 text-center">
-                            <button class="btn" @click="showDetails = !showDetails">Show detailed result</button>
+                            <button class="btn" @click="showDetails = !showDetails">Show income tax breakdown</button>
 
                             <table class="table table-striped table-scroll" v-if="showDetails" transition="expand">
                                 <thead>

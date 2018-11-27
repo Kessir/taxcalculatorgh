@@ -27,7 +27,13 @@ function computeTaxes(grossIncome, allowances, taxRates) {
     .minus(ssnitContribution)
     .plus(allowances);
 
-  const computationBreakdown = [];
+  const computationBreakdown = [
+    {
+      taxRate: 0,
+      taxAmount: 0,
+      amountTaxed: 0
+    }
+  ];
 
   for (let i = 0; i < taxRates.length; i++) {
     if (taxableRemaining.gt(0)) {
@@ -42,15 +48,16 @@ function computeTaxes(grossIncome, allowances, taxRates) {
 
       totalTax = totalTax.plus(trancheTax);
 
-      computationBreakdown.push({
+      computationBreakdown[i] = {
         taxRate,
         taxAmount: trancheTax.toFixed(2),
         amountTaxed: actualTaxableAmount.toFixed(0)
-      });
+      };
 
       taxableRemaining = taxableRemaining.minus(actualTaxableAmount);
     }
   }
+
   const netIncome = grossIncome
     .plus(allowances)
     .minus(totalTax)
