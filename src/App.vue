@@ -6,7 +6,7 @@
 
                 <h2 class="text-center">Tax Calculator 🇬🇭</h2>
                 <h6 class="text-center">Compute your net income, <a target="_blank"
-                                                                    href="http://www.gra.gov.gh/index.php/tax-information/income-tax">PAYE</a>
+                                                                    href="https://gra.gov.gh/index.php/tax-rates-2019/">PAYE</a>
                     income tax and SSNIT deduction</h6>
                 <form class="form-horizontal" v-cloak>
                     <div class="form-group text-center">
