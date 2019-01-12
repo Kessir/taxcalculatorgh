@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <section id="container" class="container grid-480">
-            <span class="tax-alert">Updated with the income tax amendment of Aug. 2018 !</span>
+            <span class="tax-alert">Updated with the income tax amendment (Act 979) of Jan. 2019 !</span>
             <div class="card content">
 
                 <h2 class="text-center">Tax Calculator 🇬🇭</h2>
