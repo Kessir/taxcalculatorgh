@@ -9,23 +9,38 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "decimal.js": "^10.0.1",
-    "register-service-worker": "^1.0.0",
-    "vue": "^2.5.16"
+    "decimal.js": "^10.2.0",
+    "register-service-worker": "^1.6.2",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
-    "@vue/cli-plugin-pwa": "^3.0.0-rc.10",
-    "@vue/cli-plugin-unit-jest": "^3.0.0-rc.10",
-    "@vue/cli-service": "^3.0.0-rc.10",
-    "@vue/eslint-config-prettier": "^3.0.0-rc.10",
-    "@vue/test-utils": "^1.0.0-beta.20",
+    "@fullhuman/postcss-purgecss": "^1.2.0",
+    "@ky-is/vue-cli-plugin-tailwind": "^2.0.0",
+    "@vue/cli-plugin-babel": "^3.10.0",
+    "@vue/cli-plugin-eslint": "^3.10.0",
+    "@vue/cli-plugin-pwa": "^3.10.0",
+    "@vue/cli-plugin-unit-jest": "^3.10.0",
+    "@vue/cli-service": "^3.10.0",
+    "@vue/eslint-config-prettier": "^3.0.5",
+    "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.0.1",
-    "lint-staged": "^7.2.0",
-    "vue-jest": "^3.0.0",
-    "vue-template-compiler": "^2.5.16"
+    "babel-jest": "^23.6.0",
+    "lint-staged": "^7.3.0",
+    "postcss-preset-env": "^6.6.0",
+    "tailwindcss": "^1.0.1",
+    "vue-jest": "^3.0.4",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      ".*\\.(vue)$": "vue-jest"
+    }
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -39,15 +54,5 @@
       "vue-cli-service lint",
       "git add"
     ]
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "vue"
-    ],
-    "transform": {
-      ".*\\.(vue)$": "vue-jest"
-    }
   }
 }
