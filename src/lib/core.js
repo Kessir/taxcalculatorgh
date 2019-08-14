@@ -3,28 +3,34 @@ import { SSNIT_RATE, monthlyTaxRates } from "./rates";
 
 const NUM_OF_MONTHS = 12;
 
-function calculate(gross, allowances, isAnnual = false) {
+function calculate({ gross, allowances, isAnnual, deductions }) {
   var result = isAnnual
-    ? computeTaxes(
-        new Decimal(gross).dividedBy(NUM_OF_MONTHS),
-        new Decimal(allowances).dividedBy(NUM_OF_MONTHS),
-        monthlyTaxRates
-      )
-    : computeTaxes(
-        new Decimal(gross),
-        new Decimal(allowances),
-        monthlyTaxRates
-      );
+    ? computeTaxes({
+        grossIncome: new Decimal(gross).dividedBy(NUM_OF_MONTHS),
+        allowances: new Decimal(allowances).dividedBy(NUM_OF_MONTHS),
+        deductible: new Decimal(deductions).dividedBy(NUM_OF_MONTHS),
+        taxRates: monthlyTaxRates
+      })
+    : computeTaxes({
+        grossIncome: new Decimal(gross),
+        allowances: new Decimal(allowances),
+        deductible: new Decimal(deductions),
+        taxRates: monthlyTaxRates
+      });
   return result;
 }
 
-function computeTaxes(grossIncome, allowances, taxRates) {
+function computeTaxes({ grossIncome, allowances, deductible, taxRates }) {
   let totalTax = new Decimal(0);
-  const ssnitContribution = new Decimal(grossIncome)
+
+  const employeeSsnitContribution = new Decimal(grossIncome)
     .times(SSNIT_RATE)
     .dividedBy(100);
+
+  const totalDeductible = employeeSsnitContribution.plus(deductible);
+
   let taxableRemaining = new Decimal(grossIncome)
-    .minus(ssnitContribution)
+    .minus(totalDeductible)
     .plus(allowances);
 
   const computationBreakdown = [
@@ -61,11 +67,11 @@ function computeTaxes(grossIncome, allowances, taxRates) {
   const netIncome = grossIncome
     .plus(allowances)
     .minus(totalTax)
-    .minus(ssnitContribution);
+    .minus(employeeSsnitContribution);
 
   return {
     incomeTax: totalTax.toFixed(2),
-    ssnit: ssnitContribution.toFixed(2),
+    ssnit: employeeSsnitContribution.toFixed(2),
     netIncome: netIncome.toFixed(2),
     computationBreakdown
   };
