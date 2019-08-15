@@ -9,7 +9,7 @@
 </template>
 
 <style>
-@import "assets/styles/tailwind.postcss";
+@import "./assets/styles/tailwind.postcss";
 
 #app {
   -webkit-font-smoothing: antialiased;
