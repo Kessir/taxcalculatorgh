@@ -1,10 +1,14 @@
 import { Decimal } from "decimal.js";
-import { SSNIT_RATE, monthlyTaxRates } from "./rates";
+import {
+  monthlyTaxRates,
+  EMPLOYEE_SSNIT_RATE,
+  EMPLOYER_SSNIT_RATE
+} from "./rates";
 
 const NUM_OF_MONTHS = 12;
 
 function calculate({ gross, allowances, isAnnual, deductions }) {
-  var result = isAnnual
+  return isAnnual
     ? computeTaxes({
         grossIncome: new Decimal(gross).dividedBy(NUM_OF_MONTHS),
         allowances: new Decimal(allowances).dividedBy(NUM_OF_MONTHS),
@@ -17,21 +21,18 @@ function calculate({ gross, allowances, isAnnual, deductions }) {
         deductible: new Decimal(deductions),
         taxRates: monthlyTaxRates
       });
-  return result;
 }
 
 function computeTaxes({ grossIncome, allowances, deductible, taxRates }) {
   let totalTax = new Decimal(0);
 
-  const employeeSsnitContribution = new Decimal(grossIncome)
-    .times(SSNIT_RATE)
-    .dividedBy(100);
+  const employeeSsnitContribution = grossIncome.times(EMPLOYEE_SSNIT_RATE);
+  const employerSsnitContribution = grossIncome.times(EMPLOYER_SSNIT_RATE);
+  const costToEmployer = grossIncome.add(employerSsnitContribution);
 
   const totalDeductible = employeeSsnitContribution.plus(deductible);
 
-  let taxableRemaining = new Decimal(grossIncome)
-    .minus(totalDeductible)
-    .plus(allowances);
+  let taxableRemaining = grossIncome.minus(totalDeductible).plus(allowances);
 
   const computationBreakdown = [
     {
@@ -70,27 +71,14 @@ function computeTaxes({ grossIncome, allowances, deductible, taxRates }) {
     .minus(employeeSsnitContribution);
 
   return {
+    baseAmount: grossIncome.toFixed(2),
     incomeTax: totalTax.toFixed(2),
-    ssnit: employeeSsnitContribution.toFixed(2),
+    employerSsnit: employerSsnitContribution.toFixed(2),
+    costToEmployer: costToEmployer.toFixed(2),
+    employeeSsnit: employeeSsnitContribution.toFixed(2),
     netIncome: netIncome.toFixed(2),
     computationBreakdown
   };
 }
 
-function isPositiveNumber(number) {
-  const positiveNumberRegex = /^[+]?([0-9]+(?:[.][0-9]*)?|\.[0-9]+)$/;
-  return positiveNumberRegex.test(number);
-}
-
-function isPositive(val) {
-  if (val === "") return false;
-  return isPositiveNumber(val);
-}
-
-export {
-  isPositive,
-  monthlyTaxRates,
-  calculate,
-  isPositiveNumber,
-  computeTaxes
-};
+export { monthlyTaxRates, calculate, computeTaxes };

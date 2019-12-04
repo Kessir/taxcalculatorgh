@@ -1,4 +1,4 @@
-import { isPositiveNumber, calculate } from "../../src/lib/core.js";
+import { isPositiveNumber, calculate } from "../../src/lib/incomeTax.js";
 
 describe("Helper", () => {
   describe("#isPositiveNumber", () => {
