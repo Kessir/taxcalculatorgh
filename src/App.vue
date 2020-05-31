@@ -31,6 +31,18 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-5">
+                    <label class="form-label tooltip" for="relief"
+                           data-tooltip="Like mortgage etc">Tax relief</label>
+                </div>
+                <div class="col-7">
+                    <div class="input-group">
+                        <span class="input-group-addon">GH¢</span>
+                        <input class="form-input" id="relief" type="number" v-model.number="taxRelief"/>
+                    </div>
+                </div>
+            </div>
         </form>
         <div id="results" v-cloak>
             <div class="columns">
@@ -81,36 +93,37 @@
 </template>
 
 <script>
-import { isPositive, calculate } from "./lib/core.js";
+    import {isPositive, calculate} from "./lib/core.js";
 
-export default {
-  name: "app",
-  data: () => ({
-    isAnnual: false,
-    grossIncome: 0,
-    allowances: 0,
-    showDetails: false
-  }),
-  methods: {
-    getPeriod() {
-      return this.isAnnual ? "Annual" : "Monthly";
-    }
-  },
-  computed: {
-    taxResult() {
-      return calculate(this.grossIncome, this.allowances, this.isAnnual);
-    },
-    inputsArePositive() {
-      return isPositive(this.grossIncome) && isPositive(this.allowances);
-    }
-  }
-};
+    export default {
+        name: "app",
+        data: () => ({
+            isAnnual: false,
+            grossIncome: 0,
+            taxRelief: 0,
+            allowances: 0,
+            showDetails: false
+        }),
+        methods: {
+            getPeriod() {
+                return this.isAnnual ? "Annual" : "Monthly";
+            }
+        },
+        computed: {
+            taxResult() {
+                return calculate(this.grossIncome, this.allowances, this.taxRelief, this.isAnnual);
+            },
+            inputsArePositive() {
+                return isPositive(this.grossIncome) && isPositive(this.allowances);
+            }
+        }
+    };
 </script>
 
 <style>
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
+    #app {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #2c3e50;
+    }
 </style>
