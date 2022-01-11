@@ -27,7 +27,7 @@
       .content {
           padding: 1rem;
           /*margin-top: 3rem;*/
-          margin-bottom: 1.2rem;
+          /* margin-bottom: 1.2rem; */
           border: .1rem solid #e9e9e9;
       }
 
@@ -86,13 +86,17 @@
       .tax-alert{
           width: 100%;
           text-align: center;
-          padding: 4px 6px;
+          padding: 12px 6px;
           margin-top: 2rem;
           margin-bottom: 1rem;
           color: #fff;
           background: #6684ea;
           display: block;
           border-radius: 3px;
+      }
+      .tax-alert > a {
+        color: #fff;
+        text-decoration: underline;
       }
   </style>
   </head>
@@ -106,7 +110,10 @@
           <p>Would you like to calculate payroll taxes for <strong>multiple employees</strong> at once & generate company-branded <strong>payslips</strong> for your employees?</p>
           <a class="btn" target="_blank" href="https://taxcalcpro.netlify.com/" style="border-bottom:  #5764c6 solid 1px;">Check this out!</a>
         </div>
-        <span class="tax-alert">Updated with income tax amendment (Act 1071) Jan. 2022 !</span>
+        <span class="tax-alert">
+          Updated with <a target="_blank"
+          href="https://gra.gov.gh/domestic-tax/tax-types/paye/">Jan. 2022 tax rates</a> !
+        </span>
 
         <div class="card content">
 
@@ -120,7 +127,7 @@
           <div class="disclaimer">* Allowances are also taxed</div>
         </div>
       </section>
-      <div class="text-center" style="margin: 10px 0px;">Last updated: 11 Jan. 2022</div>
+      <div class="text-center" style="margin: 2rem 0;">Last updated: 11 Jan. 2022</div>
       <hr>
       <section id="footer">
         <div class="text-center disclaimer" style="margin-top: 0;">Disclaimer: We do our best to ensure
