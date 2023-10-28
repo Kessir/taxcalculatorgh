@@ -1,0 +1,96 @@
+@import './base.css';
+@import './spectre.min.css';
+
+body {
+  background-color: #fafafa;
+}
+
+#footer {
+  padding: 10px;
+  margin-bottom: 1.6rem;
+}
+#footer div {
+  /* font-size: 1.2rem; */
+  color: #5d5d5d;
+  margin-top: 14px;
+}
+
+.card,
+.content {
+  padding: 1rem;
+  /*margin-top: 3rem;*/
+  /* margin-bottom: 1.2rem; */
+  border: 0.1rem solid #e9e9e9;
+}
+
+#results {
+  padding: 1rem 0;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.primary-result-color {
+  color: #5764c6;
+}
+
+.divider[data-content]::before {
+  color: #8c8c8c;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.text-danger {
+  color: #ea8479;
+}
+
+hr {
+  border: 1px solid #efefef;
+}
+
+ul.share-buttons {
+  list-style: none;
+  padding: 0;
+  margin: 4px;
+}
+
+ul.share-buttons li {
+  display: inline;
+  padding: 0 4px;
+}
+
+ul.share-buttons .sr-only {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+.share-buttons svg {
+  max-height: 25px;
+  max-width: 25px;
+  fill: #5764c6;
+}
+.tax-alert {
+  width: 100%;
+  text-align: center;
+  padding: 12px 6px;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  background: #6684ea;
+
+  border-radius: 3px;
+}
+.tax-alert > a {
+  color: #fff;
+  text-decoration: underline;
+}
+.tax-alert > a {
+  color: #fff;
+  text-decoration: underline;
+}
