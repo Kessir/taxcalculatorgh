@@ -1,0 +1,56 @@
+{
+  "\u0000plugin-vue:export-helper": [
+  ],
+  "\u0000vite/modulepreload-polyfill": [
+  ],
+  "index.html": [
+  ],
+  "node_modules/@unhead/dom/dist/index.mjs": [
+  ],
+  "node_modules/@unhead/shared/dist/index.mjs": [
+  ],
+  "node_modules/@unhead/vue/dist/shared/vue.505b826e.mjs": [
+  ],
+  "node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js": [
+  ],
+  "node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js": [
+  ],
+  "node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js": [
+  ],
+  "node_modules/@vue/shared/dist/shared.esm-bundler.js": [
+  ],
+  "node_modules/@vueuse/head/dist/index.mjs": [
+  ],
+  "node_modules/decimal.js/decimal.mjs": [
+  ],
+  "node_modules/hookable/dist/index.mjs": [
+  ],
+  "node_modules/unhead/dist/index.mjs": [
+  ],
+  "node_modules/vite-ssg/dist/client/single-page.mjs": [
+  ],
+  "node_modules/vite-ssg/dist/shared/vite-ssg.5912142e.mjs": [
+  ],
+  "node_modules/vite-ssg/dist/shared/vite-ssg.a009fbf1.mjs": [
+  ],
+  "node_modules/vue/dist/vue.runtime.esm-bundler.js": [
+  ],
+  "src/App.vue": [
+  ],
+  "src/assets/main.css": [
+  ],
+  "src/components/InputForm.vue": [
+  ],
+  "src/components/ResultSection.vue": [
+  ],
+  "src/components/SocialShare.vue": [
+  ],
+  "src/components/TopBanner.vue": [
+  ],
+  "src/lib/core.js": [
+  ],
+  "src/lib/rates.js": [
+  ],
+  "src/main.js": [
+  ]
+}
