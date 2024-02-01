@@ -1,14 +1,9 @@
-# modern-taxcalculator
+# Tax Calculator 🇬🇭
+Ghana has a progressive income tax which is not easy to calculate. This tool makes it easier for people to compute their take-home income.
 
-This template should help get you started developing with Vue 3 in Vite.
+Built with [VueJS](https://vuejs.org) and `TailwindCss`
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Available at http://kessir.github.io/taxcalculatorgh
 
 ## Project Setup
 
