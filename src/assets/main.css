@@ -1,6 +1,3 @@
-@import './base.css';
-@import './spectre.min.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,32 +7,10 @@ body {
   background-color: #fafafa;
 }
 
-#footer {
-  padding: 10px;
-  margin-bottom: 1.6rem;
-}
-
-.card,
-.content {
-  padding: 1rem;
-  /*margin-top: 3rem;*/
-  /* margin-bottom: 1.2rem; */
-  border: 0.1rem solid #e9e9e9;
-}
-
-
-.primary-result-color {
-  color: #5764c6;
-}
-
 .divider[data-content]::before {
   color: #8c8c8c;
 }
 
 [v-cloak] {
   display: none;
-}
-
-hr {
-  border: 1px solid #efefef;
 }
