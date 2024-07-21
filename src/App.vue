@@ -42,7 +42,7 @@ const taxResult = computed(() => {
         </p>
 
         <form v-cloak  class="px-4 py-4">
-          <FormInput class="mt-3" id="gross-income" label="Monthly gross income" v-model="grossIncome"/>
+          <FormInput class="mt-3" id="gross-income" label="Monthly basic income" v-model="grossIncome"/>
           <FormInput class="mt-3" id="allowances" label="Monthly allowances*" v-model="allowances"/>
           <FormInput class="mt-3" id="tax-relief" label="Tax relief" v-model="taxRelief"/>
         </form>
