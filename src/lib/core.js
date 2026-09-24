@@ -27,7 +27,7 @@ function calculate(grossInput, allowancesInput, taxReliefInput) {
 function computeTaxes({ grossIncome, allowances, taxRelief, taxRates }) {
 
   let totalTax = new Decimal(0);
-  const ssnitContribution = new Decimal(grossIncome).times(SSNIT_RATE).dividedBy(100);
+  const ssnitContribution = new Decimal(grossIncome).times(SSNIT_RATE).dividedBy(100).toDecimalPlaces(2);
 
   const totalTaxRelief = ssnitContribution.plus(taxRelief);
 
@@ -62,10 +62,12 @@ function computeTaxes({ grossIncome, allowances, taxRelief, taxRates }) {
     }
   }
 
-  const netIncome = grossIncome.plus(allowances).minus(totalTax).minus(ssnitContribution);
+  // Round deductions to the pesewa before deriving net, so the displayed figures add up
+  const incomeTax = totalTax.toDecimalPlaces(2);
+  const netIncome = grossIncome.plus(allowances).minus(incomeTax).minus(ssnitContribution);
 
   return {
-    incomeTax: totalTax.toFixed(2),
+    incomeTax: incomeTax.toFixed(2),
     ssnit: ssnitContribution.toFixed(2),
     netIncome: netIncome.toFixed(2),
     computationBreakdown
