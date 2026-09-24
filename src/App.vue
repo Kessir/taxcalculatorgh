@@ -7,6 +7,8 @@ import ResultSection from "@/components/ResultSection.vue";
 import { calculate } from "@/lib/core";
 import { computed, ref } from "vue";
 import FormInput from "@/components/FormInput.vue";
+import { monthlyTaxRates } from "@/lib/rates";
+import { formatLongDate } from "@/lib/dates";
 
 useHead({
   title: "Tax Calculator Ghana 🇬🇭",
@@ -22,6 +24,8 @@ useHead({
 const grossIncome = ref("");
 const taxRelief = ref("");
 const allowances = ref("");
+const ratesEffectiveFrom = formatLongDate(monthlyTaxRates.effectiveFrom);
+
 // a computed ref
 const taxResult = computed(() => {
   return calculate(grossIncome.value, allowances.value, taxRelief.value);
@@ -54,7 +58,7 @@ const taxResult = computed(() => {
         <div class="mt-4">* Allowances are also taxed</div>
       </div>
     </section>
-    <div class="text-center" style="margin: 2rem 0">Last updated: September 24th, 2026</div>
+    <div class="text-center" style="margin: 2rem 0">Tax rates effective from {{ ratesEffectiveFrom }}</div>
     <hr />
     <footer class="text-gray-600 px-2">
       <div class="text-center mt-4">

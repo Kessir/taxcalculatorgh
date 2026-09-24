@@ -2,9 +2,9 @@ export const SSNIT_RATE = 5.5
 
 
 
-// Effective from 09/01/2026
+// Effective from 1 September 2026
 export const monthlyTaxRates = {
-  effectiveFrom: '09/01/2026',
+  effectiveFrom: '2026-09-01', // ISO date; drives the banner and footer
   rates: [
     [0, 588],
     [5, 80],
