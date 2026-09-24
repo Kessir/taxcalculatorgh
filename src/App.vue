@@ -1,7 +1,7 @@
 <script setup>
 import Banner from "./components/TopBanner.vue";
 import SocialShare from "./components/SocialShare.vue";
-import { useHead } from "@vueuse/head";
+import { useHead } from "@unhead/vue";
 // import InputForm from "@/components/InputForm.vue";
 import ResultSection from "@/components/ResultSection.vue";
 import { calculate } from "@/lib/core";
@@ -33,7 +33,7 @@ const taxResult = computed(() => {
   <div class="font-sans text-gray-700">
     <section id="container" class="max-w-md m-auto">
       <Banner />
-      <div class="border-2 rounded p-4 bg-white">
+      <div class="border-2 rounded-sm p-4 bg-white">
         <h2 class="text-3xl text-center my-2">Tax Calculator 🇬🇭</h2>
         <p class="text-center mt-6">
           Compute your <span class="font-medium">net income</span>,

@@ -37,7 +37,7 @@ const showDetails = ref(false);
     </div>
     <div class="columns my-4">
       <div class="column col-12 text-center">
-        <button class="border border-primary text-primary px-4 py-2 my-4 rounded-sm"
+        <button class="border border-primary text-primary px-4 py-2 my-4 rounded-xs"
                 @click="showDetails = !showDetails">
           Show tax breakdown
         </button>
