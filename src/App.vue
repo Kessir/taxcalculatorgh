@@ -54,7 +54,7 @@ const taxResult = computed(() => {
         <div class="mt-4">* Allowances are also taxed</div>
       </div>
     </section>
-    <div class="text-center" style="margin: 2rem 0">Last updated: February 1st, 2024</div>
+    <div class="text-center" style="margin: 2rem 0">Last updated: September 24th, 2026</div>
     <hr />
     <footer class="text-gray-600 px-2">
       <div class="text-center mt-4">

@@ -1,18 +1,34 @@
 export const SSNIT_RATE = 5.5
 
-// Effective from 01/01/2024
+
+
+// Effective from 09/01/2026
 export const monthlyTaxRates = {
-  effectiveFrom: '01/01/2024',
+  effectiveFrom: '09/01/2026',
   rates: [
-    [0, 490],
-    [5, 110],
-    [10, 130],
-    [17.5, 3166.67],
+    [0, 588],
+    [5, 80],
+    [10, 100],
+    [17.5, 2900],
     [25, 16000],
-    [30, 30520],
+    [30, 30332],
     [35, Number.POSITIVE_INFINITY] // anything above GHC 50,000
   ]
 }
+
+// // Effective from 01/01/2024
+// export const monthlyTaxRates = {
+//   effectiveFrom: '01/01/2024',
+//   rates: [
+//     [0, 490],
+//     [5, 110],
+//     [10, 130],
+//     [17.5, 3166.67],
+//     [25, 16000],
+//     [30, 30520],
+//     [35, Number.POSITIVE_INFINITY] // anything above GHC 50,000
+//   ]
+// }
 
 // Effective until 01/01/2024
 // export const monthlyTaxRates = {
